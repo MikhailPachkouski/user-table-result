@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import api from "./api/index";
+import Users from "./components/Users";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [users, setUsers] = useState();
+    useEffect(() => {
+        api.users.fetchAll().then((data) => setUsers(data));
+    }, []);
+
+    const handleDelete = (userId) => {
+        setUsers((prev) => prev.filter((user) => user._id !== userId));
+    };
+    const handleToogleBookmark = (id) => {
+        const userIndex = users.findIndex((user) => user._id === id);
+        const newUsers = [...users];
+        newUsers[userIndex].bookmark = !newUsers[userIndex].bookmark;
+        setUsers(newUsers);
+    };
+
+    return (
+        <div style={{ margin: "15px" }} className="d-flex justify-content-center">
+            {users && (
+                <Users
+                    users={users}
+                    onDelete={handleDelete}
+                    onToggle={handleToogleBookmark}
+                />
+            )}
+        </div>
+    );
+};
 
 export default App;
