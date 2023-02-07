@@ -18,7 +18,15 @@ const Login = () => {
             }
         },
         password: {
-            isRequired: { message: "Пароль обязателен для заполнения" }
+            isRequired: { message: "Пароль обязателен для заполнения" },
+            isCapitalSymbol: {
+                message: "Пароль должен иметь хотя бы одну заглавную букву"
+            },
+            isContainDigit: { message: "Пароль должен содержать цифры" },
+            min: {
+                message: "Пароль должен быть не менее 8 символов",
+                value: 8
+            }
         }
     };
     const validate = () => {
