@@ -1,10 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Bookmark from "./Bookmark";
-import QualitiesList from "./QualitiesList";
-import Table from "./Table";
-import TableHeader from "./TableHeader";
-import TableBody from "./TableBody";
+import Bookmark from "../common/Bookmark";
+import Qualities from "./qualities";
+import Table from "../common/table";
 import { Link } from "react-router-dom";
 
 const UsersTable = ({
@@ -19,7 +17,7 @@ const UsersTable = ({
         name: { iter: "name", name: "Имя", component: (user) => <Link to={`/users/${user._id}`}>{user.name}</Link> },
         qualities: {
             name: "Качества",
-            component: (user) => <QualitiesList qualities={user.qualities} />
+            component: (user) => <Qualities qualities={user.qualities} />
         },
         professions: { iter: "profession.name", name: "Профессия" },
         completedMeetings: {
@@ -48,13 +46,13 @@ const UsersTable = ({
             )
         }
     };
-    // return <Table {...{ selectedSort, onSort, columns, data: users }} />;
-    return (
-        <Table {...{ selectedSort, onSort, columns, data: users }}>
-            <TableHeader {...{ selectedSort, onSort, columns }} />
-            <TableBody {...{ columns, data: users }} />
-        </Table>
-    );
+    return <Table {...{ selectedSort, onSort, columns, data: users }} />;
+    // return (
+    //     <Table {...{ selectedSort, onSort, columns, data: users }}>
+    //         <TableHeader {...{ selectedSort, onSort, columns }} />
+    //         <TableBody {...{ columns, data: users }} />
+    //     </Table>
+    // );
 };
 UsersTable.propTypes = {
     users: PropTypes.array.isRequired,

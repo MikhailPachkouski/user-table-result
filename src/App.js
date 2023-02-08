@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/ui/NavBar";
 import Users from "./layouts/Users";
 import { Routes, Route } from "react-router-dom";
 import Main from "./layouts/Main";

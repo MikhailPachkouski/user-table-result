@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import api from "../api/index";
-import QualitiesList from "./QualitiesList";
+import api from "../../../api/index";
 import { useNavigate } from "react-router-dom";
+import QualitiesList from "../../ui/qualities/QualitiesList";
 
 const UserPage = ({ userId }) => {
     const navigate = useNavigate();
