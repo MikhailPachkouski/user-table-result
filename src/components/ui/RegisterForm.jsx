@@ -5,13 +5,16 @@ import api from "../../api";
 import SelectField from "../form/SelectField";
 import RadioField from "../form/RadioField";
 import MultiSelectField from "../form/MultiSelectField";
+import CheckBoxField from "../form/CheckBoxField";
 
 const RegisterForm = () => {
     const [data, setData] = useState({
         email: "",
         password: "",
         profession: "",
-        sex: "male"
+        sex: "male",
+        qualities: [],
+        license: false
     });
     const [qualities, setQualities] = useState({});
     const [errors, setErrors] = useState({});
@@ -23,7 +26,6 @@ const RegisterForm = () => {
     const handleChange = (target) => {
         setData((prev) => ({ ...prev, [target.name]: target.value }));
     };
-    console.log(professions);
     const validatorConfig = {
         email: {
             isRequired: {
@@ -46,6 +48,12 @@ const RegisterForm = () => {
         },
         profession: {
             isRequired: { message: "Обязательно выберите Вашу профессию" }
+        },
+        license: {
+            isRequired: {
+                message:
+                    "Вы не можете использовать сервис без подтверждения лицензионного соглашения"
+            }
         }
     };
     const validate = () => {
@@ -101,7 +109,20 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 label="Выберите пол"
             />
-            <MultiSelectField options={qualities} onChange={handleChange} name="qualities" label="Выберите качества"/>
+            <MultiSelectField
+                options={qualities}
+                onChange={handleChange}
+                name="qualities"
+                label="Выберите качества"
+            />
+            <CheckBoxField
+                value={data.license}
+                onChange={handleChange}
+                name="license"
+                error={errors.license}
+            >
+                Подтвердить лицензионное соглашение
+            </CheckBoxField>
             <button
                 type="submit"
                 disabled={!isValid}
