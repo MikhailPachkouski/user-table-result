@@ -1,13 +1,29 @@
 import React, { useEffect, useState } from "react";
 import TextField from "../form/TextField";
 import { validator } from "../../utils/validator";
+import api from "../../api";
+import SelectField from "../form/SelectField";
+import RadioField from "../form/RadioField";
+import MultiSelectField from "../form/MultiSelectField";
 
-const LoginForm = () => {
-    const [data, setData] = useState({ email: "", password: "" });
+const RegisterForm = () => {
+    const [data, setData] = useState({
+        email: "",
+        password: "",
+        profession: "",
+        sex: "male"
+    });
+    const [qualities, setQualities] = useState({});
     const [errors, setErrors] = useState({});
-    const handleChange = ({ target }) => {
+    const [professions, setProfessions] = useState();
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => setProfessions(data));
+        api.qualities.fetchAll().then((data) => setQualities(data));
+    }, []);
+    const handleChange = (target) => {
         setData((prev) => ({ ...prev, [target.name]: target.value }));
     };
+    console.log(professions);
     const validatorConfig = {
         email: {
             isRequired: {
@@ -27,6 +43,9 @@ const LoginForm = () => {
                 message: "Пароль должен быть не менее 8 символов",
                 value: 8
             }
+        },
+        profession: {
+            isRequired: { message: "Обязательно выберите Вашу профессию" }
         }
     };
     const validate = () => {
@@ -63,6 +82,26 @@ const LoginForm = () => {
                 onChange={handleChange}
                 error={errors.password}
             />
+            <SelectField
+                label="Выберите Вашу профессию"
+                value={data.profession}
+                defaultOption="Choose..."
+                options={professions}
+                onChange={handleChange}
+                error={errors.profession}
+            />
+            <RadioField
+                options={[
+                    { name: "Male", value: "male" },
+                    { name: "Female", value: "female" },
+                    { name: "Other", value: "other" }
+                ]}
+                value={data.sex}
+                name="sex"
+                onChange={handleChange}
+                label="Выберите пол"
+            />
+            <MultiSelectField options={qualities} onChange={handleChange} name="qualities" label="Выберите качества"/>
             <button
                 type="submit"
                 disabled={!isValid}
@@ -74,4 +113,4 @@ const LoginForm = () => {
     );
 };
 
-export default LoginForm;
+export default RegisterForm;
