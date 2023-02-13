@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import TextField from "../form/TextField";
-// import { validator } from "../../utils/validator";
+import { validator } from "../../utils/validator";
 import CheckBoxField from "../form/CheckBoxField";
 
-import { object, string } from "yup";
+// import { object, string } from "yup";
 
 const LoginForm = () => {
     const [data, setData] = useState({ email: "", password: "", stayOn: false });
@@ -11,35 +11,35 @@ const LoginForm = () => {
     const handleChange = (target) => {
         setData((prev) => ({ ...prev, [target.name]: target.value }));
     };
-    const validateSchema = object({
-        email: string().required("Электронная поста обязательна для заполнения").email("Email введен некорректно"),
-        password: string().required("Пароль обязателен для заполнения").matches(/(?=.*[A-Z])/, "Пароль должен иметь хотя бы одну заглавную букву").matches(/(?=.*[0-9])/, "Пароль должен содержать цифры")
-    });
-    // const validatorConfig = {
-    //     email: {
-    //         isRequired: {
-    //             message: "Электронная поста обязательна для заполнения"
-    //         },
-    //         isEmail: {
-    //             message: "Email введен некорректно"
-    //         }
-    //     },
-    //     password: {
-    //         isRequired: { message: "Пароль обязателен для заполнения" },
-    //         isCapitalSymbol: {
-    //             message: "Пароль должен иметь хотя бы одну заглавную букву"
-    //         },
-    //         isContainDigit: { message: "Пароль должен содержать цифры" },
-    //         min: {
-    //             message: "Пароль должен быть не менее 8 символов",
-    //             value: 8
-    //         }
-    //     }
-    // };
+    // const validateSchema = object({
+    //     email: string().required("Электронная поста обязательна для заполнения").email("Email введен некорректно"),
+    //     password: string().required("Пароль обязателен для заполнения").matches(/(?=.*[A-Z])/, "Пароль должен иметь хотя бы одну заглавную букву").matches(/(?=.*[0-9])/, "Пароль должен содержать цифры")
+    // });
+    const validatorConfig = {
+        email: {
+            isRequired: {
+                message: "Электронная поста обязательна для заполнения"
+            },
+            isEmail: {
+                message: "Email введен некорректно"
+            }
+        },
+        password: {
+            isRequired: { message: "Пароль обязателен для заполнения" },
+            isCapitalSymbol: {
+                message: "Пароль должен иметь хотя бы одну заглавную букву"
+            },
+            isContainDigit: { message: "Пароль должен содержать цифры" },
+            min: {
+                message: "Пароль должен быть не менее 8 символов",
+                value: 8
+            }
+        }
+    };
     const validate = () => {
-        // const errors = validator(data, validatorConfig);
-        validateSchema.validate(data).then(() => setErrors({})).catch((error) => setErrors({ [error.path]: error.message }));
-        // setErrors(errors);
+        const errors = validator(data, validatorConfig);
+        // validateSchema.validate(data).then(() => setErrors({})).catch((error) => setErrors({ [error.path]: error.message }));
+        setErrors(errors);
         return Object.keys(errors).length === 0;
     };
     const isValid = Object.keys(errors).length === 0;
