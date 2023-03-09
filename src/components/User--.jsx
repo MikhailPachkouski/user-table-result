@@ -6,9 +6,7 @@ import PropTypes from "prop-types";
 const User = ({ user, onDelete, onToggle }) => {
     return (
         <tr>
-            <th scope="row">
-                {user.name}
-            </th>
+            <th scope="row">{user.name}</th>
             <td>
                 {user.qualities.map((quality) => (
                     <Qualitie key={quality._id} {...quality} />

@@ -12,13 +12,13 @@ const LoginForm = () => {
         setData((prev) => ({ ...prev, [target.name]: target.value }));
     };
     // const validateSchema = object({
-    //     email: string().required("Электронная поста обязательна для заполнения").email("Email введен некорректно"),
+    //     email: string().required("Электронная почта обязательна для заполнения").email("Email введен некорректно"),
     //     password: string().required("Пароль обязателен для заполнения").matches(/(?=.*[A-Z])/, "Пароль должен иметь хотя бы одну заглавную букву").matches(/(?=.*[0-9])/, "Пароль должен содержать цифры")
     // });
     const validatorConfig = {
         email: {
             isRequired: {
-                message: "Электронная поста обязательна для заполнения"
+                message: "Электронная почта обязательна для заполнения"
             },
             isEmail: {
                 message: "Email введен некорректно"

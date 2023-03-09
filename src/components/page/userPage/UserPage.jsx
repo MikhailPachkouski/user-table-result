@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import api from "../../../api/index";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import QualitiesList from "../../ui/qualities/QualitiesList";
 
 const UserPage = ({ userId }) => {
     const navigate = useNavigate();
+    const params = useParams();
     const [user, setUser] = useState();
     useEffect(() => {
         api.users.getById(userId).then((data) => setUser(data));
     }, []);
     const handleClick = () => {
-        navigate("/users");
+        navigate(`/users/${params.userId}/edit`);
     };
 
     if (user) {
@@ -22,7 +23,7 @@ const UserPage = ({ userId }) => {
                 <QualitiesList qualities={user.qualities} />
                 <p>completedMeetings: {user.completedMeetings}</p>
                 <h2>Rate: {user.rate}</h2>
-                <button onClick={handleClick}> Все Пользователи</button>
+                <button onClick={handleClick}> Изменить</button>
             </div>
         );
     } else {
