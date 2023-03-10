@@ -48,7 +48,7 @@ const UserCard = ({ user }) => {
     );
 };
 UserCard.propTypes = {
-    user: PropTypes.string.isRequired
+    user: PropTypes.object.isRequired
 };
 
 export default UserCard;
