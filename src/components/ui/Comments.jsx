@@ -11,7 +11,13 @@ const Comments = () => {
             .fetchCommentsForUser(userId)
             .then((comments) => setComments(comments));
     }, []);
-    console.log("comments");
+    const handleRemove = (id) => {
+        api.comments
+            .remove(id)
+            .then((id) =>
+                setComments(comments.filter((comment) => comment._id === id))
+            );
+    };
     return (
         <>
             <div className="card mb-2">
@@ -21,7 +27,11 @@ const Comments = () => {
                 <div className="card">
                     <div className="card-body">
                         <h3>Comments</h3>
-                        <CommentsList comments={comments} />
+                        <hr />
+                        <CommentsList
+                            comments={comments}
+                            onRemove={handleRemove}
+                        />
                     </div>
                 </div>
             )}
