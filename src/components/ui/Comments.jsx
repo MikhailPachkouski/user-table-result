@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api";
+import AddCommentForm from "../common/comments/AddCommentForm";
 import CommentsList from "../common/comments/CommentsList";
 
 const Comments = () => {
@@ -18,10 +19,17 @@ const Comments = () => {
                 setComments(comments.filter((comment) => comment._id === id))
             );
     };
+    const handleSubmit = (data) => {
+        api.comments
+            .add({ ...data, pageId: userId })
+            .then((data) => setComments([...comments, data]));
+    };
     return (
         <>
             <div className="card mb-2">
-                <div className="card-body">Add Comment Form</div>
+                <div className="card-body">
+                    <AddCommentForm onSubmit={handleSubmit} />
+                </div>
             </div>
             {comments.length > 0 && (
                 <div className="card">
