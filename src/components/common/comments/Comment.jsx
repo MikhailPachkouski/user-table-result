@@ -50,7 +50,7 @@ const Comment = ({
                                         </p>
                                         <button
                                             className="btn btn-sm text-primary d-flex align-items-center"
-                                            onClick={onRemove}
+                                            onClick={() => onRemove(id)}
                                         >
                                             <i className="bi bi-x-lg"></i>
                                         </button>

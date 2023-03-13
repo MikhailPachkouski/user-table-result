@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import api from "../../api";
 import AddCommentForm from "../common/comments/AddCommentForm";
 import CommentsList from "../common/comments/CommentsList";
+import { orderBy } from "lodash";
 
 const Comments = () => {
     const { userId } = useParams();
@@ -16,7 +17,7 @@ const Comments = () => {
         api.comments
             .remove(id)
             .then((id) =>
-                setComments(comments.filter((comment) => comment._id === id))
+                setComments(comments.filter((comment) => comment._id !== id))
             );
     };
     const handleSubmit = (data) => {
@@ -24,6 +25,7 @@ const Comments = () => {
             .add({ ...data, pageId: userId })
             .then((data) => setComments([...comments, data]));
     };
+    const sortedComments = orderBy(comments, ["created_at"], ["desc"]);
     return (
         <>
             <div className="card mb-2">
@@ -37,7 +39,7 @@ const Comments = () => {
                         <h3>Comments</h3>
                         <hr />
                         <CommentsList
-                            comments={comments}
+                            comments={sortedComments}
                             onRemove={handleRemove}
                         />
                     </div>
