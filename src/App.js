@@ -5,6 +5,8 @@ import Users from "./layouts/Users";
 import { Routes, Route } from "react-router-dom";
 import Main from "./layouts/Main";
 import Login from "./layouts/Login";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
     return (
@@ -18,6 +20,7 @@ const App = () => {
                 <Route path="/login/:type?" element={<Login />} />
                 <Route path="/users/:userId?/:edit?" element={<Users />} />
             </Routes>
+            <ToastContainer />
         </div>
     );
 };

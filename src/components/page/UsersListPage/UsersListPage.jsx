@@ -8,6 +8,7 @@ import GroupList from "../../common/GroupList";
 import SearchStatus from "../../ui/SearchStatus";
 import UsersTable from "../../ui/UsersTable";
 import _ from "lodash";
+import { useUser } from "../../../hooks/useUser";
 
 const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -17,19 +18,28 @@ const UsersListPage = () => {
     const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
     const pageSize = 8;
 
-    const [users, setUsers] = useState();
-    useEffect(() => {
-        api.users.fetchAll().then((data) => setUsers(data));
-    }, []);
+    const { users } = useUser();
+    // useEffect(() => {
+    //     api.users.fetchAll().then((data) => setUsers(data));
+    // }, []);
 
     const handleDelete = (userId) => {
-        setUsers((prev) => prev.filter((user) => user._id !== userId));
+        // setUsers((prev) => prev.filter((user) => user._id !== userId));
+        console.log(userId);
     };
-    const handleToogleBookmark = (id) => {
-        const userIndex = users.findIndex((user) => user._id === id);
-        const newUsers = [...users];
-        newUsers[userIndex].bookmark = !newUsers[userIndex].bookmark;
-        setUsers(newUsers);
+    const handleToggleBookmark = (id) => {
+        // const userIndex = users.findIndex((user) => user._id === id);
+        // const newUsers = [...users];
+        // newUsers[userIndex].bookmark = !newUsers[userIndex].bookmark;
+        // setUsers(newUsers);
+        const newUsers = users.map((user) => {
+            if (user._id === id) {
+                return { ...user, bookmark: !user.bookmark };
+            }
+            return user;
+        });
+        // setUsers(newUsers);
+        console.log(newUsers);
     };
 
     const handlePageChange = (pageIndex) => {
@@ -64,8 +74,11 @@ const UsersListPage = () => {
     if (users) {
         const filteredUsers = searchQuery
             ? users.filter(
-                // (user) => user.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
-                user => user.name.toLowerCase().includes(searchQuery.toLowerCase())
+            // (user) => user.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+                (user) =>
+                    user.name
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase())
             )
             : selectedProf
                 ? users.filter(
@@ -114,7 +127,7 @@ const UsersListPage = () => {
                             onSort={handleSort}
                             selectedSort={sortBy}
                             onDelete={handleDelete}
-                            onToggle={handleToogleBookmark}
+                            onToggle={handleToggleBookmark}
                         />
                     )}
                     <div className="d-flex justify-content-center">
