@@ -15,7 +15,7 @@ const ProfessionProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        getProfessions();
+        getProfessionsList();
     }, []);
     useEffect(() => {
         if (error !== null) {
@@ -24,7 +24,11 @@ const ProfessionProvider = ({ children }) => {
         }
     }, [error]);
 
-    async function getProfessions() {
+    function getProfession(id) {
+        return professions.find((p) => p._id === id);
+    }
+
+    async function getProfessionsList() {
         try {
             const { content } = await professionService.get();
             setProfessions(content);
@@ -40,7 +44,7 @@ const ProfessionProvider = ({ children }) => {
     };
 
     return (
-        <ProfessionContext.Provider value={{ professions, isLoading }}>
+        <ProfessionContext.Provider value={{ professions, isLoading, getProfession }}>
             {children}
         </ProfessionContext.Provider>
     );
