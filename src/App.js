@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProfessionProvider from "./hooks/useProfession";
 import QualitiesProvider from "./hooks/useQualities";
+import AuthProvider from "./hooks/useAuth";
 
 const App = () => {
     return (
@@ -16,19 +17,21 @@ const App = () => {
             style={{ margin: "15px" }}
             className="d-flex flex-column align-items-center"
         >
-            <NavBar />
-            <QualitiesProvider>
-                <ProfessionProvider>
-                    <Routes>
-                        <Route path="/" element={<Main />} />
-                        <Route path="/login/:type?" element={<Login />} />
-                        <Route
-                            path="/users/:userId?/:edit?"
-                            element={<Users />}
-                        />
-                    </Routes>
-                </ProfessionProvider>
-            </QualitiesProvider>
+            <AuthProvider>
+                <NavBar />
+                <QualitiesProvider>
+                    <ProfessionProvider>
+                        <Routes>
+                            <Route path="/" element={<Main />} />
+                            <Route path="/login/:type?" element={<Login />} />
+                            <Route
+                                path="/users/:userId?/:edit?"
+                                element={<Users />}
+                            />
+                        </Routes>
+                    </ProfessionProvider>
+                </QualitiesProvider>
+            </AuthProvider>
             <ToastContainer />
         </div>
     );
