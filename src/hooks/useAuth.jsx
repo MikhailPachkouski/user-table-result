@@ -15,6 +15,7 @@ export const useAuth = () => {
 const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState({});
     const [error, setError] = useState(null);
+
     async function signUp({ email, password, ...rest }) {
         const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`;
         try {
@@ -25,9 +26,17 @@ const AuthProvider = ({ children }) => {
             });
             setTokens(data);
             await createUser({ _id: data.localId, email, ...rest });
-            console.log(data);
         } catch (error) {
             errorCatcher(error);
+            const { code, message } = error.response.data.error;
+            if (code === 400) {
+                if (message === "EMAIL_EXISTS") {
+                    const errorObject = {
+                        email: "Пользователь с таким именем уже существует"
+                    };
+                    throw errorObject;
+                }
+            }
         }
     }
     async function createUser(data) {

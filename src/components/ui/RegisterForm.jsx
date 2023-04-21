@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useProfession } from "../../hooks/useProfession";
 import { useQualities } from "../../hooks/useQualities";
@@ -10,6 +11,7 @@ import SelectField from "../form/SelectField";
 import TextField from "../form/TextField";
 
 const RegisterForm = () => {
+    const navigate = useNavigate();
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -75,7 +77,7 @@ const RegisterForm = () => {
         validate();
     }, [data]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
@@ -83,8 +85,12 @@ const RegisterForm = () => {
             ...data,
             qualities: data.qualities.map((q) => q.value)
         };
-        console.log(newData);
-        signUp(newData);
+        try {
+            await signUp(newData);
+            navigate("/");
+        } catch (error) {
+            setErrors(error);
+        }
     };
     return (
         <form onSubmit={handleSubmit}>
